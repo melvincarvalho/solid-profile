@@ -136,7 +136,21 @@
   <script src="https://melvincarvalho.github.io/helloworld/scripts/solid-auth-client.bundle.js"></script>
   <script src="https://melvincarvalho.github.io/helloworld/scripts/rdflib.min.js"></script>
   <script>
+    // INIT
+    var template = {}
+
+    function init () {
+      var webId = getQueryStringParam('webid')
+      if (webId) {
+        template.webId = webId
+        renderLogin(webId)
+      }
+    }
+
+
+    // RENDER
     function renderLogin(webId) {
+      if (template.webId) webId = template.webId
       console.log('logged in as', webId)
       let logout = document.getElementById("logout");
       let login = document.getElementById("login");
@@ -186,6 +200,7 @@
       handleLogin();
     }
 
+    // HELPERS
     function hamburgerHelper() {
       document.querySelector(".navbar-burger").addEventListener("click", toggleNav);
 
@@ -198,6 +213,21 @@
         }
       }
     }
+
+    function getQueryStringParam(param) {
+      var url = window.location.toString();
+      url.match(/\?(.+)$/);
+      var params = RegExp.$1;
+      params = params.split("&");
+      var queryStringList = {};
+      for (var i = 0; i < params.length; i++) {
+        var tmp = params[i].split("=");
+        queryStringList[tmp[0]] = unescape(tmp[1]);
+      }
+      return queryStringList[param];
+    }
+
+    // FETCH
     async function fetchProfile(webId) {
       const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/'); // Set up a local data store and associated data fetcher
 
@@ -221,6 +251,7 @@
     }
     addListeners();
     hamburgerHelper();
+    init()
   </script>
 
 </body>
