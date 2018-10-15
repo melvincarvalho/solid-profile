@@ -180,7 +180,7 @@
     function handleLogin() {
       // login event
       solid.auth.trackSession(session => {
-        if (session && session.webId) {
+        if ((session && session.webId) || (template && template.webId)) {
           renderLogin(session.webId);
         } else {
           renderLogout();
