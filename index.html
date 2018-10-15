@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Solid Profile</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
-  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 </head>
 
 <body>
@@ -48,7 +47,7 @@
           </a>
             <hr class="navbar-divider">
             <a class="navbar-item">
-            <a target="_blank" href="https://github.com/melvincarvalho/solid-menu/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc">Report an issue</a>
+            <a target="_blank" href="https://github.com/melvincarvalho/solid-profile/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc">Report an issue</a>
             </a>
           </div>
         </div>
@@ -80,15 +79,47 @@
         Solid Profile
       </h1>
       <section id="app" style="display:none">
+
+<div class="card">
+  <div class="card-image">
+    <figure class="image is-4by3">
+      <img id="img" class="image is-128x128" src="images/profile.png" alt="Placeholder image">
+    </figure>
+  </div>
+  <div class="card-content">
+    <div class="media">
+      <div class="media-left">
+        <figure class="image is-48x48">
+          <img id="img" src="images/profile.png" alt="Placeholder image">
+        </figure>
+      </div>
+      <div class="media-content">
+        <p id="name" class="title is-4"></p>
+        <p class="subtitle is-6">@nick</p>
+      </div>
+    </div>
+
+    <div class="content">
+        <a id="user" target="_blank" href="#">
+        <a></a>
+      <br>
+      <time datetime="2018-10-10">11:09 PM - 1 Jan 2016</time>
+    </div>
+  </div>
+</div>
+
         <hr>
-        <a id="user" target="_blank" href="#"></a>
+</a>
         <hr>
         <div id="name"></div>
         <div><img  id="img" /></div>
+
+
+
       </section>
     </div>
   </section>
-  
+
   <script src="https://melvincarvalho.github.io/helloworld/scripts/jquery.js"></script>
   <script src="https://melvincarvalho.github.io/helloworld/scripts/solid-auth-client.bundle.js"></script>
   <script src="https://melvincarvalho.github.io/helloworld/scripts/rdflib.min.js"></script>
@@ -99,8 +130,9 @@
       let login = document.getElementById("login");
       let register = document.getElementById("register");
       let app = document.getElementById("app");
+      logout.style = '';
       register.style.display = "none";
-      login.style.display = "";
+      login.style.display = "none";
       app.style.display = "";
       user.style.display = "";
       user.textContent = webId;
@@ -167,13 +199,13 @@
       console.log(img)
 
       if (name && name.value) {
-        document.getElementById("name").textContent = name.value;   
+        document.getElementById("name").textContent = name.value;
       }
 
       if (img && img.value) {
-        document.getElementById("img").setAttribute("src", img.value);   
+        document.getElementById("img").setAttribute("src", img.value);
       }
-      
+
     }
     addListeners();
     hamburgerHelper();
