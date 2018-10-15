@@ -137,33 +137,43 @@
   <script src="https://melvincarvalho.github.io/helloworld/scripts/rdflib.min.js"></script>
   <script>
     // INIT
+    //
     var template = {}
+    template.webId = null
+    template.loggedIn = false
 
     function init () {
+      addListeners();
+      hamburgerHelper();
       var webId = getQueryStringParam('webid')
       if (webId) {
         template.webId = webId
-        renderLogin(webId)
+        fetchProfile(webId)
       }
     }
 
 
     // RENDER
-    function renderLogin(webId) {
-      if (template.webId) webId = template.webId
-      console.log('logged in as', webId)
-      let logout = document.getElementById("logout");
-      let login = document.getElementById("login");
-      let register = document.getElementById("register");
+    //
+    function renderProfile(webId) {
       let app = document.getElementById("app");
-      logout.style = '';
-      register.style.display = "none";
-      login.style.display = "none";
+      let user = document.getElementById("user");
+
       app.style.display = "";
       user.style.display = "";
       user.textContent = webId;
       user.setAttribute("href", webId);
-      fetchProfile(webId);
+    }
+
+    function renderLogin(webId) {
+
+      let logout = document.getElementById("logout");
+      let login = document.getElementById("login");
+      let register = document.getElementById("register");
+
+      logout.style = '';
+      register.style.display = "none";
+      login.style.display = "none";
     }
 
     function renderLogout() {
@@ -177,17 +187,9 @@
       register.style.display = "";
     }
 
-    function handleLogin() {
-      // login event
-      solid.auth.trackSession(session => {
-        if ((session && session.webId) || (template && template.webId)) {
-          renderLogin(session.webId);
-        } else {
-          renderLogout();
-        }
-      });
-    }
-    // Log the user in and out on click
+
+    // HANDLERS
+    //
     function addListeners() {
       let login = document.getElementById("login");
       let logout = document.getElementById("logout");
@@ -200,7 +202,28 @@
       handleLogin();
     }
 
+    function handleLogin() {
+      // login event
+      solid.auth.trackSession(session => {
+        if (session && session.webId) {
+          template.loggedIn = true
+          renderLogin();
+        } else {
+          template.loggedIn = false
+          renderLogout();
+        }
+
+        if (template && template.webId) {
+          fetchProfile(template.webId);
+        } else if (session && session.webId) {
+          fetchProfile(session.webId);
+        }
+      });
+    }
+
+
     // HELPERS
+    //
     function hamburgerHelper() {
       document.querySelector(".navbar-burger").addEventListener("click", toggleNav);
 
@@ -247,10 +270,11 @@
       if (img && img.value) {
         document.getElementById("img").setAttribute("src", img.value);
       }
+      renderProfile(webId)
 
     }
-    addListeners();
-    hamburgerHelper();
+
+    // MAIN
     init()
   </script>
 
